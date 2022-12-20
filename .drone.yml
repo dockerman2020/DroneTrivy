@@ -1,0 +1,146 @@
+kind: pipeline
+type: kubernetes
+name: TrivyBuild
+
+# environment:
+#   IMAGE_URL: quay.io/absiplant
+#   IMAGE_REPO: scanner
+
+
+steps:
+- name: Build Trivy Server Image
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/absiplant/trivy_scanner
+    dockerfile: Dockerfile
+    username:
+      from_secret: trivy_server
+    password:
+      from_secret: trivy_server_password
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA}
+      # - 0.35.0-r${DRONE_BUILD_NUMBER}
+  when:
+    event:
+    - push
+    - pull_request
+    - custom
+
+- name: Build Trivy Client Image
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/absiplant/scanner 
+    dockerfile: Dockerfile-client
+    username:
+      from_secret: key_user
+    password:
+      from_secret: key_user_password
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA}
+  when:
+    event:
+    - push
+    - pull_request
+    - custom
+
+  # build_trivy_scanner:
+  #   image: docker:18.09
+  #   environment:
+  #     - DOCKER_HOST=tcp://172.17.0.1:2375
+  #   commands:
+  #     - docker build -t trivy_scanner:$${DRONE_COMMIT_SHA} .
+  #   when:
+  #     branch: master
+  #     event: [push, tag]
+
+# - name: Build Trivy Server image
+#   image: plugins/docker
+#   settings:
+#     dockerfile: Dockerfile
+#   commands:
+#     - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done
+#     # - docker build --no-cache -t $${IMAGE_REPO}:$${DRONE_COMMIT_SHA} .
+#   # volumes:
+#   #   - name: dockersock
+#   #     path: /var/run
+#   when:
+#     branch: master
+#     event: [push, pull_request]
+
+# - name: Build Trivy Client image
+#   image: plugins/docker
+#   settings:
+#     dockerfile: Dockerfile-client
+#   commands:
+#     - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done
+#     # - docker build --no-cache -t $${IMAGE_REPO}:$${DRONE_COMMIT_SHA} .
+#   # volumes:
+#   #   - name: dockersock
+#   #     path: /var/run
+#   when:
+#     branch: master
+#     event: [push, pull_request]
+
+# - name: Push Trivy Server image
+#   image: plugins/docker
+#   secrets:
+#     - trivy_server_password
+#   # environment:
+#   #   - DOCKER_HOST=tcp://172.17.0.1:2375
+#   commands:
+#     - docker login -u="absiplant+trivy_server" -p=$${TRIVY_SERVER_PASSWORD} quay.io
+#     - docker tag trivy_scanner:$${DRONE_COMMIT_SHA} quay.io/absiplant/trivy_scanner:$${DRONE_COMMIT_SHA}
+#     - docker tag trivy_scanner:$${DRONE_COMMIT_SHA} quay.io/absiplant/trivy_scanner:latest
+#     - docker push quay.io/absiplant/trivy_scanner:$${DRONE_COMMIT_SHA}
+#     - docker push quay.io/absiplant/trivy_scanner:latest
+#   when:
+#     branch: master
+#     event: push
+
+# - name: Push Image to Quay
+#   pull: if-not-exists
+#   image: plugins/docker
+#   environment:
+#     DOCKER_PASSWORD:
+#       from_secret: key_user_password
+#   commands:
+#   # - docker login -u="absiplant+trivy_scanner" -p=$${DOCKER_PASSWORD} quay.io
+#   - docker logout
+#   - docker login -u="absiplant+trivy_scanner" -p="5EBRTY9PUGM01HZX1KB286XRS8AYIVO1VSMEEMYERNNN0YBWA77ZDYT7VPMIDH1P" quay.io
+#   - docker tag $${IMAGE_REPO}:$${DRONE_COMMIT_SHA} $${IMAGE_URL}/$${IMAGE_REPO}:$${DRONE_COMMIT_SHA}
+#   - docker push $${IMAGE_URL}/$${IMAGE_REPO}:$${DRONE_COMMIT_SHA}
+#   when:
+#     branch: 
+#       - main
+#       - feature/*
+#     event: [push, pull_request]
+
+# - name: Deploy trivy server service
+#   image: danielgormly/drone-plugin-kube:0.2.0
+#   settings:
+#     template: trivy-demo/trivy-leader-service.yaml
+#     namespace: trivy-demo
+#     ca:
+#       from_secret: k8s_crt
+#     server:
+#       from_secret: k8s_server
+#     token:
+#       from_secret: k8s_token
+
+# - name: Deploy trivy server deployment
+#   image: danielgormly/drone-plugin-kube:0.2.0
+#   settings:
+#     template: trivy-demo/trivy-leader-deployment.yaml
+#     namespace: trivy-demo
+#     ca:
+#       from_secret: k8s_crt
+#     server:
+#       from_secret: k8s_server
+#     token:
+#       from_secret: k8s_token
+  
+    
