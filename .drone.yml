@@ -1,0 +1,44 @@
+kind: pipeline
+type: kubernetes
+name: TrivyBuild
+
+steps:
+- name: Build Trivy Server Image
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/absiplant/trivy_scanner
+    dockerfile: Dockerfile
+    username:
+      from_secret: trivy_server
+    password:
+      from_secret: trivy_server_password
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA}
+  when:
+    event:
+      branch: main
+        - push
+        - pull_request
+        - custom
+
+- name: Build Trivy Client Image
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/absiplant/scanner 
+    dockerfile: Dockerfile-client
+    username:
+      from_secret: key_user
+    password:
+      from_secret: key_user_password
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA}
+  when:
+    event:
+      branch: main
+        - push
+        - pull_request
+        - custom
