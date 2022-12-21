@@ -3,7 +3,7 @@ FROM alpine:3.17.0@sha256:af06af3514c44a964d3b905b498cf6493db8f1cde7c10e078213a8
 LABEL maintainer="Dockerman <75863443+dockerman2020@users.noreply.github.com>"
 
 # Install dependencies
-RUN apk install -y python3.9 python3-pip jq 
+RUN apk add --update -y python3.9 python3-pip jq 
 
 # Make sure the package repository is up to date.
 RUN apk update
