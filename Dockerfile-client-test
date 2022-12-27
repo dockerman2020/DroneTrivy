@@ -11,4 +11,4 @@ RUN apk update
 # Install Trivy Scanner and enable server.
 COPY --from=aquasec/trivy:0.35.0 /usr/local/bin/trivy /usr/local/bin/trivy
 
-# ENTRYPOINT ["/bin/sh"]
+ENTRYPOINT ["/bin/sh"]
