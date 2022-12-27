@@ -5,6 +5,7 @@ name: TrivyBuild
 steps:
 - name: Build Trivy Server Image
   image: plugins/docker
+  pull: true
   settings:
     registry: quay.io
     repo: quay.io/absiplant/trivy_scanner
