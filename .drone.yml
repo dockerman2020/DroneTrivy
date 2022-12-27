@@ -34,9 +34,9 @@ steps:
     password:
       from_secret: key_user_password
     tags:
-      # - latest
-      # - ${DRONE_COMMIT_SHA}
-      - testing
+      - latest
+      - ${DRONE_COMMIT_SHA}
+      # - testing
   when:
     event:
       branch: main
