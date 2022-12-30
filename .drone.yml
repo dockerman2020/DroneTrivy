@@ -28,7 +28,7 @@ steps:
   settings:
     registry: quay.io
     repo: quay.io/absiplant/scanner 
-    dockerfile: Dockerfile-client
+    dockerfile: Dockerfile-client-test
     username:
       from_secret: key_user
     password:
@@ -36,6 +36,7 @@ steps:
     tags:
       - latest
       - ${DRONE_COMMIT_SHA}
+      # - testing
   when:
     event:
       branch: main
