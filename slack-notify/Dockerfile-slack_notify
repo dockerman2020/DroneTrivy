@@ -1,0 +1,15 @@
+FROM alpine:3.17.0@sha256:af06af3514c44a964d3b905b498cf6493db8f1cde7c10e078213a89c87308ba0
+
+LABEL maintainer="Dockerman <75863443+dockerman2020@users.noreply.github.com>"
+
+# Install dependencies
+RUN apk add --no-cache python3=~3.10 py3-pip jq 
+
+# Install requirements
+RUN pip3 install aiohttp slack_sdk
+
+
+# Make sure the package repository is up to date.
+RUN apk update
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]

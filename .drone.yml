@@ -43,3 +43,24 @@ steps:
         - push
         - pull_request
         - custom
+
+- name: Build Slack Notify Python Image
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/absiplant/slack_notify
+    dockerfile: slack-notify/Dockerfile-slack_notify
+    username:
+      from_secret: slack_key_user
+    password:
+      from_secret: slack_user_password
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA}
+      # - testing
+  when:
+    event:
+      branch: main
+        - push
+        - pull_request
+        - custom
