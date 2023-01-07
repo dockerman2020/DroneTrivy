@@ -6,7 +6,7 @@ LABEL maintainer="Dockerman <75863443+dockerman2020@users.noreply.github.com>"
 RUN apk add --no-cache python3=~3.10 py3-pip jq 
 
 # Install requirements
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r slack-notify/requirements.txt
 
 # Make sure the package repository is up to date.
 RUN apk update
