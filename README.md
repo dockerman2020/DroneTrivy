@@ -12,8 +12,8 @@ Images are built and pushed across to quay.
     + The implementation requires the Triver server is reachable and it's listening.
     + The Scan step is configured to send the desired commands to the Trivy server as follows:
         - image - If Image is being sent to the Triver server for vulnerabilities scanning.
-        token - The token to be used for authentication to the Triver server.
-        <ignore-unfixed> - Whether to ignore the vulnerabilities without fixes.
-        server - The Trivy server address to connect to.
-        severity - The severity of the vulnerabilities to scan for.
-        <image-name> - The image to scan.
+        - token - The token to be used for authentication to the Triver server.
+        - <ignore-unfixed> - Whether to ignore the vulnerabilities without fixes.
+        - server - The Trivy server address to connect to.
+        - severity - The severity of the vulnerabilities to scan for.
+        - <image-name> - The image to scan.
