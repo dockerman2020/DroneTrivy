@@ -20,5 +20,5 @@ Images are built and pushed across to quay.
 
 ## Slack Notify.
 * Slack notify image for use as plugin in CI/CD Notification step. 
-    + This is built using python3 and has the SDK - slack_sdk and the aiohttp packages, their dependancies installed.
-    
+    + This is built using python3 and has the SDK - slack_sdk and the aiohttp packages, their dependancies installed. 
+    This plugin ideally should be run with the A python Slack Web API application.
