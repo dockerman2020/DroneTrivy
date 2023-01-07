@@ -1,7 +1,0 @@
----
-kind: Namespace
-apiVersion: v1
-metadata:
-  name: trivy-demo
-  labels:
-    name: trivy-demo

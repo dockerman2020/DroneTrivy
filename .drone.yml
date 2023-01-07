@@ -2,6 +2,7 @@ kind: pipeline
 type: kubernetes
 name: TrivyBuild
 
+# Build the Triver Server Image.
 steps:
 - name: Build Trivy Server Image
   image: plugins/docker
@@ -23,12 +24,13 @@ steps:
         - pull_request
         - custom
 
+# Build the Trivy Client Image for use as plugin in Scan steps.
 - name: Build Trivy Client Image
   image: plugins/docker
   settings:
     registry: quay.io
     repo: quay.io/absiplant/scanner 
-    dockerfile: Dockerfile-client-test
+    dockerfile: Dockerfile-client
     username:
       from_secret: key_user
     password:
@@ -36,7 +38,27 @@ steps:
     tags:
       - latest
       - ${DRONE_COMMIT_SHA}
-      # - testing
+  when:
+    event:
+      branch: main
+        - push
+        - pull_request
+        - custom
+
+# Build the Slack Python Image to be used as plugin for Slack Notifications.
+- name: Build Slack Notify Python Image
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/absiplant/slack_notify
+    dockerfile: slack-notify/Dockerfile-slack_notify
+    username:
+      from_secret: slack_notify_user
+    password:
+      from_secret: slack_notify_password
+    tags:
+      - latest
+      - ${DRONE_COMMIT_SHA}
   when:
     event:
       branch: main

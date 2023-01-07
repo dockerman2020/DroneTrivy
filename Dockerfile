@@ -7,7 +7,7 @@ LABEL maintainer="Dockerman <75863443+dockerman2020@users.noreply.github.com>"
 RUN apk update
 
 # Install Trivy Scanner and enable server.
-COPY --from=aquasec/trivy:0.32.0 /usr/local/bin/trivy /usr/local/bin/trivy
+COPY --from=aquasec/trivy:0.35.0 /usr/local/bin/trivy /usr/local/bin/trivy
 
 EXPOSE 10000
 
