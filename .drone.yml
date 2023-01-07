@@ -53,9 +53,9 @@ steps:
     repo: quay.io/absiplant/slack_notify
     dockerfile: slack-notify/Dockerfile-slack_notify
     username:
-      from_secret: slack_key_user
+      from_secret: slack_notify_user
     password:
-      from_secret: slack_user_password
+      from_secret: slack_notify_password
     tags:
       - latest
       - ${DRONE_COMMIT_SHA}
