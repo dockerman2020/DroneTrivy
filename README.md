@@ -1,8 +1,4 @@
 [![Build Status](https://a796-86-18-82-206.eu.ngrok.io/api/badges/dockerman2020/DroneTrivy/status.svg)](https://a796-86-18-82-206.eu.ngrok.io/dockerman2020/DroneTrivy)
-<a href="https://a796-86-18-82-206.eu.ngrok.io/dockerman2020/DroneTrivy">
-  <img src="https://a796-86-18-82-206.eu.ngrok.io/api/badges/dockerman2020/DroneTrivy/status.svg" />
-</a>
-[![Build Status](https://a796-86-18-82-206.eu.ngrok.io/api/badges/dockerman2020/DroneTrivy/status.svg?ref=refs/heads/feature/dronetrivy-01)](https://a796-86-18-82-206.eu.ngrok.io/dockerman2020/DroneTrivy)
 
 # Drone-Trivy 
 Repo for Trivy server and client.
