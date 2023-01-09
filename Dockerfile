@@ -6,6 +6,9 @@ LABEL maintainer="Dockerman <75863443+dockerman2020@users.noreply.github.com>"
 # Make sure the package repository is up to date.
 RUN apk update
 
+# Upgrade libssl3 from 3.0.7-r0 to 3.0.7-r2 to fix CVE-2022-3996
+RUN apk upgrade libssl3 libcrypto3
+
 # Install Trivy Scanner and enable server.
 COPY --from=aquasec/trivy:0.35.0 /usr/local/bin/trivy /usr/local/bin/trivy
 
