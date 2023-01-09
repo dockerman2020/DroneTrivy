@@ -3,7 +3,7 @@ FROM alpine:3.17.0@sha256:af06af3514c44a964d3b905b498cf6493db8f1cde7c10e078213a8
 LABEL maintainer="Dockerman <75863443+dockerman2020@users.noreply.github.com>"
 
 # Install dependencies
-RUN apk add --no-cache python3=~3.10 py3-pip jq 
+# RUN apk add --no-cache python3=~3.10 py3-pip jq 
 
 # Upgrade libssl3 from 3.0.7-r0 to 3.0.7-r2 to fix CVE-2022-3996
 RUN apk upgrade libssl3 libcrypto3
